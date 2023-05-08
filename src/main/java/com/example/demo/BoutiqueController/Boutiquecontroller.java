@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.BoutiqueModel.BoutiqueDet;
 import com.example.demo.BoutiqueModel.Boutiquemodel;
 import com.example.demo.BoutiqueService.Boutiqueservice;
 
@@ -22,12 +23,12 @@ import com.example.demo.BoutiqueService.Boutiqueservice;
 public class Boutiquecontroller {
 @Autowired
 Boutiqueservice botservice;
-@PostMapping("")
+@PostMapping("/sanju")
 public String create(@RequestBody Boutiquemodel boutique)
 {
 	return botservice.addBoutique(boutique);
 }
-@GetMapping("")
+@GetMapping("/deeps")
 public List<Boutiquemodel>read()
 {
 	return botservice.getBoutique();
@@ -39,7 +40,7 @@ public Optional<Boutiquemodel>readById(@PathVariable int id)
 }
 @PutMapping("/put")
 public String update(@RequestBody Boutiquemodel boutique)
-{
+{ 
 	return botservice.updateBoutique(boutique);
 }
 @DeleteMapping("/delete")
@@ -47,5 +48,21 @@ public String delete(@RequestParam("bid") int id)
 {
 	botservice.deleteByRequestParam(id);
 	return "deleted";
+}
+@GetMapping("/{field}")
+public List<Boutiquemodel>getBoutiqueSorted(@PathVariable String field)
+{
+	return botservice.getSorted(field);
+}
+@GetMapping("/{offset}/{pagesize}")
+public List<Boutiquemodel>getBoutiquePagination(@PathVariable int offset,@PathVariable int pagesize)
+{
+	return botservice.getWithPagination(offset,pagesize);
+}
+@PostMapping("/do")
+public BoutiqueDet saveBoutiqueDet(@RequestBody BoutiqueDet b)
+{
+	return botservice.saveBoutiqueDet(b);
+	
 }
 }
